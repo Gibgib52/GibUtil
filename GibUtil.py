@@ -38,6 +38,7 @@ def populateListpane():
     utilvar = StringVar() # convert to stringvar for the listbox
     utilvar.set(utilsList)
 
+    # listbox does not displayyyy i am losing my mind
     utillistbox = Listbox(listpane, listvariable=utilvar, height=6)
     utillistbox.pack()
     print_debug("pLp: utillistbox packed")
