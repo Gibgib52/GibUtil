@@ -9,6 +9,8 @@ import tkinter as tk
 
 utilsdir = "./Utils" # directory to scan for utilities
 
+utillistbox = None # change scope of utillistbox
+
 def scanUtils():
     print_debug("scanUtils: has run.")
     utilsList = [] # blank list
@@ -38,7 +40,7 @@ def formatutilList(listToFormat):
     return formattedlist
 
 # add listbox with results from scanUtils()
-def refreshListbox():
+def createUtilListbox():
     print_debug("Refreshing Listbox")
     utilsList = scanUtils() # get list of utils from scanUtils()
     utilvar = StringVar() # convert to stringvar for the listbox
@@ -56,7 +58,10 @@ def refreshListbox():
     utillistbox.pack()
     print_debug("pLp: utillistbox packed")
 
-    # utillistbox.bind('<<ListboxSelect>>', callback) # bind callback to selection change, currently unused
+    utillistbox.bind('<<ListboxSelect>>', listboxSelect) # bind callback to selection change, currently unused
+
+def listboxSelect(e):
+    curselection = utillistbox.get(utillistbox.curselection()) 
 
 # tkinter stuff
 window = tk.Tk()
@@ -76,7 +81,7 @@ window.geometry("{}x{}+{}+{}".format(w,h,int(calcX),int(calcY))) # set size and 
 window.resizable(False, False) # disables resizing
 window.title("GibUtil")
 
-utilslabel = Label(text="Utilities", justify="center")
+utilslabel = Label(text="Python Utilities", justify="center")
 utilslabel.pack()
 
 # begin mainframe
@@ -88,9 +93,9 @@ listframe = LabelFrame(mainframe)
 # listplaceholder = Label(listframe,text="placeholder for list of utilities")
 # listplaceholder.pack()
 
-window.after(100,refreshListbox) # populate listpane after 100 ms (to wait for debuglabel to be loaded)
+window.after(100,createUtilListbox) # populate listpane after 100 ms (to wait for debuglabel to be loaded)
 
-# scanbutton makes a new listbox each time you click it.
+# scanbutton makes a new listbox each time you click it. unintended behavior, commented out
 # scanbutton = Button(listframe,text="Scan & Update",command=refreshListbox)
 # scanbutton.pack(padx="5",pady="5")
 
