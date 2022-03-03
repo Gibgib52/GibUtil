@@ -13,12 +13,12 @@ def scanUtils():
     print_debug("scanUtils: has run.")
     utilsList = [] # blank list
     for filename in os.listdir(utilsdir):
-        file = os.path.join(utilsdir, filename) # find file from name for current iteration
+        curfile = os.path.join(utilsdir, filename) # find file from name for current iteration
 
         # check if it is a file
-        if os.path.isfile(file) and file.endswith(".py"):
-            utilsList.append(file)
-            print_debug("scanUtils: Found " + file)
+        if os.path.isfile(curfile) and curfile.endswith(".py"):
+            utilsList.append(curfile)
+            print_debug("scanUtils: Found " + curfile)
             
     print_debug("scanUtils: utilsList: " + str(utilsList))
     return utilsList
@@ -33,23 +33,28 @@ def print_debug(string):
 
 # add listbox with results from scanUtils()
 def populateListpane():
-    print_debug("pLp: has run.")
+    print_debug("Populating Listbox")
     utilsList = scanUtils() # get list of utils from scanUtils()
     utilvar = StringVar() # convert to stringvar for the listbox
+
+    # utilsList.
     utilvar.set(utilsList)
 
     # listbox does not displayyyy i am losing my mind
-    utillistbox = Listbox(listpane, listvariable=utilvar, height=6)
+    utillistbox = Listbox(listframe, listvariable=utilvar)
     utillistbox.pack()
     print_debug("pLp: utillistbox packed")
 
     # utillistbox.bind('<<ListboxSelect>>', callback) # bind callback to selection change, currently unused
 
+def refreshListpane():
+    pass
+
 # tkinter stuff
 window = tk.Tk()
 
 w = 400 # width for window
-h = 260 # height for window
+h = 280 # height for window
 
 ws = window.winfo_screenwidth() # width of the screen
 hs = window.winfo_screenheight() # height of the screen
@@ -75,16 +80,13 @@ listframe = LabelFrame(mainframe)
 # listplaceholder = Label(listframe,text="placeholder for list of utilities")
 # listplaceholder.pack()
 
-listpane = Frame(listframe)
-
 window.after(100,populateListpane) # populate listpane after 100 ms (to wait for debuglabel to be loaded)
 
 scanbutton = Button(listframe,text="Scan & Update",command=populateListpane)
 scanbutton.pack(padx="5",pady="5")
 
-# list that iterates through .\Utils
-
 listframe.pack(side=tk.LEFT,padx=5,pady=5)
+
 # end listframe
 
 # begin infoframe
