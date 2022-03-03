@@ -35,10 +35,10 @@ def print_debug(string):
 def populateListpane():
     print_debug("pLp: has run.")
     utilsList = scanUtils() # get list of utils from scanUtils()
-    utilvar = StringVar(value=utilsList) # convert to stringvar for the listbox
-    print_debug("pLp: utilvar: " + str(utilvar))
-    
-    utillistbox = Listbox(listpane,listvariable=utilvar,height=6)
+    utilvar = StringVar() # convert to stringvar for the listbox
+    utilvar.set(utilsList)
+
+    utillistbox = Listbox(listpane, listvariable=utilvar, height=6)
     utillistbox.pack()
     print_debug("pLp: utillistbox packed")
 
