@@ -19,6 +19,7 @@ def scanUtils():
             utilsList.append(file)
             print_debug("scanUtils: Found " + file)
     print_debug("scanUtils: utilsList: " + str(utilsList))
+    return utilsList
 
 def launchCallback():
     print_debug("Launching {utilname}")
@@ -28,8 +29,20 @@ def print_debug(string):
     print(string)
     debuglabel.config(text="Debug Info: " + string)
 
+# add listbox with results from scanUtils()
 def populateListpane():
-    pass
+    print_debug("pLp: has run.")
+    utilsList = scanUtils() # get list of utils from scanUtils()
+    utilvar = StringVar(value=utilsList) # convert to stringvar for the listbox
+    print_debug("pLp: utilvar: " + str(utilvar))
+    
+    utillistbox = Listbox(listpane,listvariable=utilvar,height=6)
+    utillistbox.pack()
+    print_debug("pLp: utillistbox packed")
+
+    # utillistbox.bind('<<ListboxSelect>>', callback) # bind callback to selection change, currently unused
+
+
 
 # tkinter stuff
 window = tk.Tk()
@@ -62,9 +75,10 @@ listframe = LabelFrame(mainframe)
 # listplaceholder.pack()
 
 listpane = Frame(listframe)
-populateListpane()
 
-scanbutton = Button(listframe,text="Scan",command=scanUtils)
+window.after(100,populateListpane) # populate listpane after 100 ms (to wait for debuglabel to be loaded)
+
+scanbutton = Button(listframe,text="Scan & Update",command=populateListpane)
 scanbutton.pack(padx="5",pady="5")
 
 listframe.pack(side=tk.LEFT,padx=5,pady=5)
