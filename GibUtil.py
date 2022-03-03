@@ -31,6 +31,8 @@ listframe = LabelFrame(mainframe)
 listplaceholder = Label(listframe,text="placeholder for list of utilities")
 listplaceholder.pack()
 
+# list that iterates through .\Utils
+
 listframe.pack(side=tk.LEFT,padx=5,pady=5)
 # end listframe
 
