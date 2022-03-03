@@ -10,13 +10,15 @@ import tkinter as tk
 utilsdir = "./Utils" # directory to scan for utilities
 
 def scanUtils():
-    print_debug("scanUtils has run.")
+    print_debug("scanUtils: has run.")
+    utilsList = [] # blank list
     for filename in os.listdir(utilsdir):
         file = os.path.join(utilsdir, filename) # find file from name for current iteration
         # check if it is a file
-        if os.path.isfile(file):
-            1 + 1
-
+        if os.path.isfile(file) and file.endswith(".py"):
+            utilsList.append(file)
+            print_debug("scanUtils: Found " + file)
+    print_debug("scanUtils: utilsList: " + str(utilsList))
 
 def launchCallback():
     print_debug("Launching {utilname}")
@@ -25,6 +27,9 @@ def launchCallback():
 def print_debug(string):
     print(string)
     debuglabel.config(text="Debug Info: " + string)
+
+def populateListpane():
+    pass
 
 # tkinter stuff
 window = tk.Tk()
@@ -52,8 +57,12 @@ mainframe = LabelFrame(window)
 
 # begin listframe
 listframe = LabelFrame(mainframe)
-listplaceholder = Label(listframe,text="placeholder for list of utilities")
-listplaceholder.pack()
+
+# listplaceholder = Label(listframe,text="placeholder for list of utilities")
+# listplaceholder.pack()
+
+listpane = Frame(listframe)
+populateListpane()
 
 scanbutton = Button(listframe,text="Scan",command=scanUtils)
 scanbutton.pack(padx="5",pady="5")
@@ -64,15 +73,18 @@ listframe.pack(side=tk.LEFT,padx=5,pady=5)
 # begin infoframe
 infoframe = LabelFrame(mainframe)
 
-utiltitle = Label(infoframe,text="{utilname}") # title of currently selected utility
+# title of currently selected utility
+utiltitle = Label(infoframe,text="{utilname}") 
 utiltitle.pack()
 
+# long discription of utility
 utilinfo = Message(infoframe,text="""long discription of what the utility does and how it works.
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
 Ut enim ad minim veniam, quis nostrud""")
 utilinfo.pack()
 
+# button to launch currently selected utility
 utillaunch = Button(infoframe, text="Launch {utilname}",command=launchCallback)
 utillaunch.pack(padx=5,pady=5)
 
