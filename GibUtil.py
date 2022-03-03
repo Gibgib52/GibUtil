@@ -14,10 +14,12 @@ def scanUtils():
     utilsList = [] # blank list
     for filename in os.listdir(utilsdir):
         file = os.path.join(utilsdir, filename) # find file from name for current iteration
+
         # check if it is a file
         if os.path.isfile(file) and file.endswith(".py"):
             utilsList.append(file)
             print_debug("scanUtils: Found " + file)
+            
     print_debug("scanUtils: utilsList: " + str(utilsList))
     return utilsList
 
@@ -41,8 +43,6 @@ def populateListpane():
     print_debug("pLp: utillistbox packed")
 
     # utillistbox.bind('<<ListboxSelect>>', callback) # bind callback to selection change, currently unused
-
-
 
 # tkinter stuff
 window = tk.Tk()
