@@ -38,22 +38,25 @@ def formatutilList(listToFormat):
     return formattedlist
 
 # add listbox with results from scanUtils()
-def populateListpane():
-    print_debug("Populating Listbox")
+def refreshListbox():
+    print_debug("Refreshing Listbox")
     utilsList = scanUtils() # get list of utils from scanUtils()
     utilvar = StringVar() # convert to stringvar for the listbox
 
-    utilvar.set(formatutilList(utilsList))
+    utilvar.set(formatutilList(utilsList)) # formats utilsList then sets as variable
 
-    # listbox does not displayyyy i am losing my mind
+    try:
+        utillistbox.delete(0, END)  # clear listbox, if exists
+    except UnboundLocalError:
+        print_debug("UnboundLocalError: does not exist yet")
+    except:
+        print_debug("Something else went wrong 0_0")
+
     utillistbox = Listbox(listframe, listvariable=utilvar)
     utillistbox.pack()
     print_debug("pLp: utillistbox packed")
 
     # utillistbox.bind('<<ListboxSelect>>', callback) # bind callback to selection change, currently unused
-
-def refreshListpane():
-    pass
 
 # tkinter stuff
 window = tk.Tk()
@@ -85,10 +88,11 @@ listframe = LabelFrame(mainframe)
 # listplaceholder = Label(listframe,text="placeholder for list of utilities")
 # listplaceholder.pack()
 
-window.after(100,populateListpane) # populate listpane after 100 ms (to wait for debuglabel to be loaded)
+window.after(100,refreshListbox) # populate listpane after 100 ms (to wait for debuglabel to be loaded)
 
-scanbutton = Button(listframe,text="Scan & Update",command=populateListpane)
-scanbutton.pack(padx="5",pady="5")
+# scanbutton makes a new listbox each time you click it.
+# scanbutton = Button(listframe,text="Scan & Update",command=refreshListbox)
+# scanbutton.pack(padx="5",pady="5")
 
 listframe.pack(side=tk.LEFT,padx=5,pady=5)
 
