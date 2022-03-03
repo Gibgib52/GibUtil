@@ -31,14 +31,19 @@ def print_debug(string):
     print(string)
     debuglabel.config(text="Debug Info: " + string)
 
+def formatutilList(listToFormat):
+    formattedlist = [] # empty list
+    for i in range(len(listToFormat)): # iterate through every entry in list
+        formattedlist.append(listToFormat[i].strip(utilsdir)) # strips the "./Utils" from the list entries
+    return formattedlist
+
 # add listbox with results from scanUtils()
 def populateListpane():
     print_debug("Populating Listbox")
     utilsList = scanUtils() # get list of utils from scanUtils()
     utilvar = StringVar() # convert to stringvar for the listbox
 
-    # utilsList.
-    utilvar.set(utilsList)
+    utilvar.set(formatutilList(utilsList))
 
     # listbox does not displayyyy i am losing my mind
     utillistbox = Listbox(listframe, listvariable=utilvar)
